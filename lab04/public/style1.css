@@ -1,0 +1,137 @@
+body {font: 16px "helvetica", cursive;
+background: url("Blue-rule.png");
+}
+
+
+
+strong { color: #f00; /*makes strong text red. adds background color only to strong text and doubles size*/
+background-color: #ddf;
+ font-size: 200%;}
+
+/*.carrot { color: #fa0; }*/
+
+.spinach { color: #080; }
+
+#first { font-style: italic; }
+
+p {color: #00f;}
+p:before {content: url("yellow-pin.png");}
+
+
+/*puuts yellow pin in top right of screen*/
+#fixed-pin {
+	position:fixed;
+	top: 5px;
+	right: 5px;
+}
+
+/* style sheet for the lists in light blue boxes*/
+h3.numbered {counter-reset: mynum;}
+
+
+ul, #numbered {border: 1em solid #69b;
+			padding-right:.5em;
+			float: left;
+			clear: left;}
+
+p.numbered:before {
+  content: counter(mynum) ": ";
+  counter-increment: mynum;
+  font-weight: bold;
+  color: black;
+}
+
+li{list-style: lower-roman;
+  margin-bottom: 8px;
+	padding-right: .5em;}
+
+h3 {border-top: 1px solid gray;
+	text-align: center;
+	float: left;
+	clear: left;
+}
+
+
+/*** Style for Tables**/
+
+#demo-table {
+	clear: left;
+  font: 100% sans-serif;
+  background-color: #efe;
+  border-collapse: collapse;
+  empty-cells: show;
+  border: 1px solid #7a7;
+}
+
+#demo-table > caption {
+  text-align: left;
+  font-weight: bold;
+  font-size: 200%;
+  border-bottom: .2em solid #4ca;
+  margin-bottom: .5em;
+}
+
+
+/* basic shared rules */
+#demo-table th,
+#demo-table td {
+  text-align: right;
+  padding-right: .5em;
+}
+
+#demo-table th {
+  font-weight: bold;
+  padding-left: .5em;
+}
+
+
+/* header */
+#demo-table > thead > tr:first-child > th {
+  text-align: center;
+  color: blue;
+}
+
+#demo-table > thead > tr + tr > th {
+  font-style: italic;
+  color: gray;
+}
+
+/* fix size of superscript */
+#demo-table sup {
+  font-size: 75%;
+}
+
+/* body */
+#demo-table td {
+  background-color: #cef;
+  padding:.5em .5em .5em 3em;
+}
+
+#demo-table tbody th:after {
+  content: ":";
+}
+
+
+/* footer */
+#demo-table tfoot {
+  font-weight: bold;
+}
+
+#demo-table tfoot th {
+  color: blue;
+}
+
+#demo-table tfoot th:after {
+  content: ":";
+}
+
+#demo-table > tfoot td {
+  background-color: #cee;
+}
+
+#demo-table > tfoot > tr:first-child td {
+  border-top: .2em solid #7a7;
+}
+#demo-table tbody td {
+  border:1px solid green;
+  border-collapse: collapse;}

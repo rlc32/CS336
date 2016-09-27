@@ -1,0 +1,28 @@
+/* numbered paragraphs */
+h3.numbered {counter-reset: mynum;}
+
+
+ul, #numbered {border: 1em solid #69b;
+			padding-right:.5em;
+			float: left;
+			clear: left;
+			}
+
+
+p.numbered:before {
+  content: counter(mynum) ": ";
+  counter-increment: mynum;
+  font-weight: bold;
+  color: black;
+}
+
+li{list-style: lower-roman;
+  margin-bottom: 8px;
+	padding-right: .5em;}
+
+h3 {border-top: 1px solid gray;
+	text-align: center;
+	float: left;
+	clear: left;
+	}
+
