@@ -1,8 +1,8 @@
 /* numbered paragraphs */
-h3.numbered {counter-reset: mynum;}
+h3.numbered {counter-reset: headnum;}
 
 
-ul, #numbered {border: 1em solid #69b;
+ul, #thing {border: 1em solid #69b;
 			padding-right:.5em;
 			float: left;
 			clear: left;
@@ -10,8 +10,8 @@ ul, #numbered {border: 1em solid #69b;
 
 
 p.numbered:before {
-  content: counter(mynum) ": ";
-  counter-increment: mynum;
+  content: "(" counter(headnum, upper-latin)") ";
+  counter-increment: headnum;
   font-weight: bold;
   color: black;
 }
