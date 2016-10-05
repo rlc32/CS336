@@ -58,20 +58,24 @@ footer {
   border: 2px solid #000;
   border-radius: 0pt;
   background: #feb;
-}
 /* Too narrow to support three columns */
+}
 @media all and (max-width: 640px) {
-}
-#main > article,
-#main > nav,
-#main > aside {
+  #main,
+  #page {
+    flex-direction: column;
+  }
+  #main > article,
+  #main > nav,
+  #main > aside {
 /* Return them to document order */
-  order: 0;
-}
-#main > nav,
-#main > aside,
-header,
-footer {
-  min-height: 50px;
-  max-height: 800px;
+    order: 0;
+  }
+  #main > nav,
+  #main > aside,
+  header,
+  footer {
+    min-height: 50px;
+    max-height: 75px;
+  }
 }

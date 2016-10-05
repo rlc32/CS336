@@ -1,75 +1,78 @@
+//variables
+font-size = 24px
+//border width variable
+borwid = 2px 
     
-    font-size = 24px
-    borwid = 2px
-    body 
-        font: font-size Helvetica
-        background: #999999
+ body 
+    font: font-size Helvetica
+    background: #999999
     
-    p
-        margin: 0px
-    
-
-    #main 
-        min-height: 800px
-        margin: 0px
-        padding: 0px
-        display: flex
-        flex-flow: row 
-        article 
-            margin: 0px
-            padding: 5px
-            border:  borwid solid black
-            border-radius: 0pt
-            background: #dddd88
-            flex: 3 1 60%
-            order: 2
-            font-family: monospace
-            font: lucida
-        nav 
-            margin: 0px
-            font: times
-            padding: 5px;
-            border:  borwid solid black
-            border-radius: 0pt
-            background: #ccccff
-            flex: 1 6 20%
-            order: 0
-            text-align: right
-            font-weight: bold
-            font-family: serif
-            font: georgia
-        aside 
-            margin: 0px
-            padding: 5px
-            border:  borwid solid black
-            border-radius: 0pt
-            background: #ccccff
-            flex: 1 6 20%
-            order: 3
-            font-weight: bold
-            font-family: serif
-            font: georgia
+p
+    margin: 0px
     
 
-    header, footer 
-        display: block
+#main 
+    min-height: 800px
+    margin: 0px
+    padding: 0px
+    display: flex
+    flex-flow: row 
+    article 
         margin: 0px
         padding: 5px
-        min-height: 100px
         border:  borwid solid black
         border-radius: 0pt
-        background: #ffeebb
+        background: #dddd88
+        flex: 3 1 60%
+        order: 2
+        font-family: monospace
+        font: lucida
+    nav 
+        margin: 0px
+        font: times
+        padding: 5px;
+        border:  borwid solid black
+        border-radius: 0pt
+        background: #ccccff
+        flex: 1 6 20%
+        order: 0
+        text-align: right
+        font-weight: bold
+        font-family: serif
+        font: georgia
+    aside 
+        margin: 0px
+        padding: 5px
+        border:  borwid solid black
+        border-radius: 0pt
+        background: #ccccff
+        flex: 1 6 20%
+        order: 3
+        font-weight: bold
+        font-family: serif
+        font: georgia
+    
+
+header, footer 
+    display: block
+    margin: 0px
+    padding: 5px
+    min-height: 100px
+    border:  borwid solid black
+    border-radius: 0pt
+    background: #ffeebb
     
  
     /* Too narrow to support three columns */
-@media all and (max-width: 640px) 
-            flex-direction: column
+@media all and (max-width: 640px)
+    #main, #page    
+        flex-direction: column
     #main > article, #main > nav, #main > aside 
         /* Return them to document order */
         order 0
     #main > nav, #main > aside, header, footer 
         min-height: 50px
-        max-height: 800px
+        max-height: 75px
         
     
     
