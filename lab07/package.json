@@ -1,0 +1,16 @@
+{
+  "name": "cs336labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lab03.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "jquery": "^3.1.1"
+  }
+}
