@@ -22,9 +22,18 @@ $( document ).ready(function() {
         event.preventDefault();
  
     });
- $( "a" ).addClass( "test" );
-});
+    $( "<p>This is a new paragraph</p>" );
+    $( "a" ).addClass( "test" );
+    $(document.createElement('div'));
+    var myNewElement = $( "<p>New element</p>" );
  
-    </script>
+    myNewElement.appendTo( "#content" );
+ 
+    myNewElement.insertAfter( "ul:last" ); 
+});
+  
+    
+     </script> 
+<div id="content"><p>This is so I can put something after</p></div>
 </body>
 </html>
