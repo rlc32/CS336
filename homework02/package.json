@@ -1,0 +1,13 @@
+{
+  "name": "homework_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "start": "kill $(pgrep node) ; nodemon --ignore public/ server.js &",
+    "stop": "kill $(pgrep node)"
+  },
+  "author": "",
+  "license": "ISC"
+}

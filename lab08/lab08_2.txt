@@ -1,0 +1,11 @@
+8.2
+
+a.  it allows the code to be easily maintaned. it also allows you to return a tree of componants instead of basic html.
+b. jsx is an alternate way to write javascript. jsx uses simplier syntax and the gets compoiled into javascript.
+c. comments are loaded from the database. they are created in the comment form, and they are saved to the database.
+d. States are mutable. props are immutable. when state is altered the component is re rendered. 
+
+1. when i remove a coment from the file the website removes the comment. when i add a new one it appears on the website.
+2. since the state is changed it automaically re renders.
+3. to prevent the Dom and the component being in different states.
+4. if the server rejects the comment, the comment will be removed when the server is polled next.
