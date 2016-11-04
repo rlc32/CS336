@@ -1,5 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-
+var webpack = require('webpack')
 module.exports = {
     entry: [
         __dirname + '/app/scripts/index.js'
@@ -15,6 +15,15 @@ module.exports = {
         ]
     },
     plugins: [
-    new HtmlWebpackPlugin({template: __dirname + "/app/index.tmpl.html"})
-    ]
+    new HtmlWebpackPlugin({template: __dirname + "/app/index.tmpl.html"}),
+    new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        port: 3001,
+        proxy: { '/api/*': 'http://localhost:3000' },
+        colors: true,
+        historyApiFallback: true,
+        inline: true,
+        hot: true
+    }
 };
