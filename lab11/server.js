@@ -58,7 +58,7 @@ app.post('/api/comments', function(req, res) {
         })
 });
 
-MongoClient.connect('mongodb://cs336:PASSWORD@ds031203.mlab.com:31203/cs336', function(err, dbConnection){
+MongoClient.connect('mongodb://cs336:'+ process.env.PASSWORD + '@ds031203.mlab.com:31203/cs336', function(err, dbConnection){
     if (err) throw err;
     db = dbConnection;
 })
