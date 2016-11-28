@@ -17,120 +17,153 @@ function getAge(dateString) {
     return age;
 }
 // adding people to the database.
-var list_of_persons = []
 
 
 
-const express = require('express')
-const bodyParser = require('body-parser')
-var app = express()
-var MongoClient = require('mongodb')
+var fs = require('fs');
+var path = require('path');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
 var db;
 
-app.use(express.static('public'))
+app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-app.get('/people', (req, res) => {
-	updateList()
-	res.json(list_of_persons)
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'no-cache');
+    next();
+});
+//get all people
+app.get('api/people', (req, res) => {
+	db.collection("homework03").find({}).toArray(function(err,docs){
+		assert.equel(err,null);
+		res.json(docs);
+	});
+});
+//add a new person to the data base
+app.post('/api/people', function(req,res){
+	  var new_person = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        idnumber: req.body.idnumber,
+        startdate: req.body.startdate,
+    };
+    db.collection("homework03").insertOne(new_person, function(err, result) {
+        assert.equal(err, null);
+        res.json(result);
+    });
 })
+//============================all the get routes needed ===========================================
+//write all to webpage
+app.get('/people', function(req, res) {
+    console.log('al employees info')
+    db.collection("homework03").find({}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        res.json(docs);
+    })
+});
+//full record of employee with the id number
+app.get('/person/:ID', function(req, res) {
+    var loginID = req.params.ID;
+    db.collection("homework03").find().toArray(function(err, docs) {
+        for (object of docs) {
+            if (object["idnumber"] == loginID) {
+                res.json(object);
+            }
+        }
+    });
+});
+//first and last name off the employee who has this id number
+app.get('/person/:ID/name', function(req, res) {
+    var loginID = req.params.ID;
+    db.collection("homework03").find().toArray(function(err, docs) {
+        for (object of docs) {
+            if (object["idnumber"] == loginID) {
+                var temp_name = object["firstname"] + " " + object["lastname"];
+                res.json(temp_name);
+            }
+        }
+    });
+});
 
-app.get('/:loginId', (req, res) => {
-	const id = req.params["loginId"]
-	updateList()
-	for (person of list_of_persons) {
-		if (person["loginId"] == id) {
-			res.json(person)
-			return
-		}
-	}
-	res.sendStatus(404)
-})
+//how many years the employee has been at the comapny
+app.get('/person/:ID/years', function(req, res) {
+    var loginID = req.params.ID;
+    db.collection("homework03").find().toArray(function(err, docs) {
+        for (object of docs) {
+            if (object["idnumber"] == loginID) {
+                var years = getAge(object["startdate"]);
+                res.json(years);
+            }
+        }
+    });
+});
+//==================================put post delete for the server ===========================================================
+//add a new person from the webpage form
+app.post('/people', function(req, res) {
 
-app.delete('/:loginId', (req, res) => {
-	const id = req.params["loginId"]
-	updateList()
-	for (person of list_of_persons) {
-		if (person["loginId"] == id) {
-			index = list_of_persons.indexOf(person)
-			list_of_persons.splice(index, 1)
-			res.send("Succesfully removed " + person.first_name + " " + person.last_name + " from the database.")
-		}
-	}
-})
+    // Create a person from the data given
+    var new_person = {
+        firstname: req.body.user_first_name,
+        lastname: req.body.user_last_name,
+        idnumber: req.body.user_id_number,
+        startdate: req.body.user_start_date,
+    };
 
-app.put('/:loginId', (req, res) => {
-	const id = req.params["loginId"]
-	for (person of list_of_persons) {
-		if (id == person["loginId"]) {
-			person.first_name = req.body.first
-			person.last_name = req.body.last
-			person.loginId = req.body.id
-			person.startDate = req.body.startDate
-			res.send("Updated the database")
-		}
-	}
-})
+    // Add the newPerson to the people collection in the Mongo Database
+    db.collection("homework03").insertOne(new_person, function(err, result) {
+        assert.equal(err, null);
+    });
 
-app.get('/:loginId/name', (req, res) => {
-	const id = req.params["loginId"]
-	updateList()
-	for (person of list_of_persons) {
-		if (person["loginId"] == id) {
-			res.json(person["first_name"] + " " + person["last_name"])
-			return
-		}
-	}
-	res.sendStatus(404)
-})
+    // Create a JSON object for the result data that is going to get sent back
+    resultData = {"first" : req.body.user_first_name, "last" : req.body.user_last_name};
 
-app.get('/:loginId/years', (req, res) => {
-	const id = req.params["loginId"]
-	updateList()
-	for (person of list_of_persons) {
-		if (person["loginId"] == id) {
-			res.json(getAge(person["startDate"]).toString())
-			return
-		}
-	}
-	res.sendStatus(404)
-})
+    // Send the JSON object result data back to the Web Page
+    res.json(JSON.stringify(resultData));
 
-app.post('/add_person', (req, res) => {
-	//add in checks
-	var temp_person = {
-		first_name: req.body.first_name,
-		last_name: req.body.last_name,
-		id: req.body.id,
-		date: req.body.start_date
-	}
-	db.collection("homework03").insertOne(new_person, (err, result) => {
-		if (err) {
-			console.error(err)
-			process.exit(1)
-		}
-	})
-	resData = {"first": req.body.first_name,
-				"last": req.body.last_name}
-	res.json(JSON.stringify(resData))
-	updateList()
-})
+});
+//retrieve infromation about specific employee based off of ID number
+app.post('/person/:ID', function(req, res) {
+    // Get the ID Number
+    var loginID = req.body.id_number;
+    // Find the person with that id number
+    db.collection("homework03").find().toArray(function(err, docs) {
+        for (object of docs) {
+            if (object["idnumber"] == loginID) {
+                resultData = {"first": object["firstname"], "last": object["lastname"], "ID": object["idnumber"], 
+                                "years": getAge(object["startdate"])};
+                res.json(JSON.stringify(resultData));
+                return;
+            }
+        }
+    });
+});
+//update an employee's information
+app.put('/person/:ID', function(req, res) {
+    var loginID = req.params.ID;
+    db.collection("homework03").updateOne({idnumber: loginID}, { $set: {firstname: req.body.firstname, lastname: req.body.lastname,
+            idnumber: req.body.idnumber, startdate: req.body.startdate}});
 
-
-app.post('/find_person', (req, res) => {
-	updateList()
-	for (person of list_of_persons) {
-		if (person["loginId"] == req.body.id) {
-			resData = {"first": person["first_name"],
-							"last": person["last_name"],
-							"id": person["loginId"],
-							"date": person["startDate"]}
-			res.json(JSON.stringify(resData))
-		}
-	}
-})
-MongoClient.connect('mongodb://cs336:'+process.env.MONGO_PASSWORD+'@ds031203.mlab.com:31203/cs336', function(err, dbConnection){
+    res.json('Successfully updated employee with ID: ' + loginID);
+});
+//remove a persons information
+app.delete('/person/:ID', function(req, res) {
+    var loginID = req.params.ID;
+    db.collection("people").deleteOne({idnumber: loginID});
+    res.json('Successfully removed employee infromation with ID number: ' + loginID);
+});
+//=====================================catch bad urls =========================================================================
+app.all('*', function(req,res){
+	console.log("Page not found, possibly bad data entered.");
+	res.sendStatus(404);
+});
+//=============================server and data base info here ================================================================
+MongoClient.connect('mongodb://cs336:bjarne@ds031203.mlab.com:31203/cs336', function(err, dbConnection){
     if (err) throw err;
     db = dbConnection;
 })
@@ -138,11 +171,3 @@ app.listen(3000, () => {
 	console.log("listening on port 3000")
 })
 
-function updateList(){
-	db.collection('homework03').find().toArray((err, items) => {
-		list_of_persons = []
-		for(data in items){
-			list_of_persons.push(new Person(data["first_name"], data["last_name"], data["id"], data["startDate"]))
-		}
-	})
-}
